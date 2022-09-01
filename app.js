@@ -37,7 +37,12 @@ app.get("/compose", function(req,res) {
 });
 
 app.get("/posts/:topic", function(req,res) {
-  console.log(req.params.topic);
+
+  posts.forEach(function(post) {
+    if (post.title === req.params.topic) {
+      console.log("Match Found");
+    };
+  });
 });
 
 app.post("/compose", function(req,res) {
