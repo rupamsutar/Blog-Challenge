@@ -20,8 +20,6 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-let posts = [];
-
 const postSchema = {
   title: String,
   content: String
@@ -31,9 +29,16 @@ const Post = mongoose.model ("post", postSchema);
 
 
 app.get("/", function(req,res) {
-  res.render("home", {
-    startingContent: homeStartingContent,
-    posts: posts
+
+  Post.find({}, function(err, posts) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("home", {
+        startingContent: homeStartingContent,
+        posts: posts
+      });
+    };
   });
 });
 
