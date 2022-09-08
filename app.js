@@ -66,17 +66,29 @@ app.post("/compose", function(req,res) {
   res.redirect("/");
 });
 
-app.get("/posts/:topic", function(req,res) {
+app.get("/posts/:postid", function(req,res) {
+  const requestedPostId = req.params.postid;
 
-  posts.forEach(function(post) {
-    if ( _.lowerCase(post.title) === _.lowerCase(req.params.topic)) {
-      res.render("post", {
-        postTitle: post.title,
-        post: post.post
-      });
-    };
-  });
+  Post.findOne({_id:requestedPostId}, function(err,post) {
+    res.render("post", {
+      postTitle: post.title,
+      post: post.content
+    })
+  })
 });
+
+
+// Post.find({}, function(err,posts) {
+//     posts.forEach(function(post) {
+//       if ( post._id === req.params.postid) {
+//         console.log(post._id)
+//         res.render("post", {
+//           postTitle: post.title,
+//           post: post.content
+//         });
+//       };
+//     });
+// });
 
 
 
